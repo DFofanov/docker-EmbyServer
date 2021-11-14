@@ -1,4 +1,4 @@
-# docker-Emby
+# docker-EmbyServer
 Emby-Server with Russian language support
 
 ## Introduction:
