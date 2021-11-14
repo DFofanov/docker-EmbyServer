@@ -18,7 +18,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update && apt-get upgrade -y \
  && apt-get install -y language-pack-ru \
  && locale-gen ru_RU.UTF-8 && dpkg-reconfigure locales \
- && mkdir /data && chmod -R 666 /data \
+ && mkdir /data && chmod 0755 /data \
  && apt-get clean \
  && touch /var/log/cron.log \
  && ln -sf /proc/1/fd/1 /var/log/cron.log
