@@ -1,34 +1,25 @@
 # Emby Server
-FROM emby/emby-base:x86_64
-MAINTAINER DFofanov <dfofanov@gmail.com>
-
-ARG ARCH
-ENV APP_NAME="emby-server" IMG_NAME="embyserver" TAG_NAME="${ARCH}" EDGE=0 UMASK=002
-
-# Russian language
-ENV LANGUAGE ru_RU.UTF-8
-ENV LANG ru_RU.UTF-8
-ENV LC_ALL ru_RU.UTF-8
-
-RUN apt-get update \
- && apt-get upgrade -y \
- && apt-get install -y language-pack-ru \
- && locale-gen ru_RU.UTF-8 && dpkg-reconfigure locales \
- && VERSION=$(curl -sL https://github.com/mediaBrowser/Emby/releases.atom | grep -A 1 -e 'link.*alternate' | grep -e '    <' | sed 'N;s/\n/ /' | grep -v 'beta' | head -1 | sed 's%.*/tag/\([^"]*\).*%\1%') \
- && echo "Downloading version: $VERSION" \
- && rm -rf /var/tmp/emby.zip \
- && curl -o /var/tmp/emby.zip -L https://github.com/MediaBrowser/Emby/releases/download/$VERSION/Emby.Mono.zip \
- && rm -rf /usr/lib/emby-server/bin \
- && mkdir -p /usr/lib/emby-server/bin \
- && unzip /var/tmp/emby.zip -d /usr/lib/emby-server/bin \
- && curl -L https://raw.githubusercontent.com/MediaBrowser/Emby.Build/master/builders/emby-server/debfiles/restart.sh -o /usr/lib/emby-server/restart.sh \
- && chmod 0755 /usr/lib/emby-server/restart.sh \
- && rm -rf /var/tmp/emby.zip \
- && gawk -i inplace -F: '{ if ( $1 == "root" ) print}' /etc/passwd \
- && gawk -i inplace -F: '{ if ( $1 == "root" ) print}' /etc/group \
- && gawk -i inplace '{print $0; exit; }' /etc/shadow
-
-VOLUME [ "/config" ]
-EXPOSE 8096 8920 7359/udp 1900/udp
+FROM linuxserver/emby:latest
+LABEL maintainer="https://github.com/DFofanov"
 
 ENTRYPOINT ["/init"]
+
+ENV APP_NAME="emby-server" IMG_NAME="embyserver" TAG_NAME="${AMD64}" EDGE=0 UMASK=002
+
+# On linux systems you need to set this environment variable before run:
+ENV GODEBUG="madvdontneed=1"
+
+# Russian language
+ENV LC_ALL ru_RU.UTF-8
+ENV LANG ru_RU.UTF-8
+ENV LANGUAGE ru_RU.UTF-8
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get update && apt-get upgrade -y \
+ && apt-get install -y language-pack-ru \
+ && locale-gen ru_RU.UTF-8 && dpkg-reconfigure locales \
+ && apt-get clean \
+ && touch /var/log/cron.log \
+ && ln -sf /proc/1/fd/1 /var/log/cron.log
+
+HEALTHCHECK --interval=5s --timeout=10s --retries=3 CMD curl -sS 127.0.0.1:8096 || exit 1
