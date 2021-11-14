@@ -1,5 +1,7 @@
 # Emby Server
 FROM emby/emby-base:x86_64
+MAINTAINER DFofanov <dfofanov@gmail.com>
+
 ARG ARCH
 ENV APP_NAME="emby-server" IMG_NAME="embyserver" TAG_NAME="${ARCH}" EDGE=0 UMASK=002
 
