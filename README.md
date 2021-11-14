@@ -34,16 +34,16 @@ docker run -d \
 
 ## Parameters
 
-* ~~~ -p 8096 ~~~ Http webUI.
-* ~~~ -p 8920 ~~~ Https webUI (you need to setup your own certificate).
-* ~~~ -e PUID=1000 ~~~ for UserID - see below for explanation.
-* ~~~ -e PGID=1000 ~~~ for GroupID - see below for explanation.
-* ~~~ -e TZ=Europe/Moscow ~~~ Specify a timezone to use EG Europe/Moscow.
-* ~~~ -v /config ~~~ Emby data storage location. This can grow very large, 50gb+ is likely for a large collection.
-* ~~~ -v /data ~~~ Media goes here.
+* ``` -p 8096 ``` Http webUI.
+* ``` -p 8920 ``` Https webUI (you need to setup your own certificate).
+* ``` -e PUID=1000 ``` for UserID - see below for explanation.
+* ``` -e PGID=1000 ``` for GroupID - see below for explanation.
+* ``` -e TZ=Europe/Moscow ``` Specify a timezone to use EG Europe/Moscow.
+* ``` -v /config ``` Emby data storage location. This can grow very large, 50gb+ is likely for a large collection.
+* ``` -v /data ``` Media goes here.
 
 ## Info
-* To monitor the logs of container in realtime ~~~ docker logs torrserver ~~~
+* To monitor the logs of container in realtime ``` docker logs torrserver ```
 
 ## License
 Licensed under the GPL-3.0 License.
