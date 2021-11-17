@@ -9,4 +9,4 @@ ENV LC_ALL ru_RU.UTF-8
 ENV LANG ru_RU.UTF-8
 ENV LANGUAGE ru_RU.UTF-8
 
-RUN mkdir /data && chmod -R 0775 /data
+RUN mkdir /data && chmod -R 775 /data
